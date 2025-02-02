@@ -1,3 +1,6 @@
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using PracticaTienda.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +21,38 @@ namespace PracticaTienda
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            CrearRolesYUsuarios();
+        }
+
+        private void CrearRolesYUsuarios()
+        {
+            var context = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            // Crear el rol "Admin" si no existe
+            if (!roleManager.RoleExists("Admin"))
+            {
+                var role = new IdentityRole("Admin");
+                roleManager.Create(role);
+
+                var user = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
+                string userPassword = "Admin@123";
+                var chkUser = userManager.Create(user, userPassword);
+
+                // Asignar el rol "Admin" al usuario
+                if (chkUser.Succeeded)
+                {
+                    userManager.AddToRole(user.Id, "Admin");
+                }
+            }
+
+            // Crear el rol "User" si no existe
+            if (!roleManager.RoleExists("User"))
+            {
+                var role = new IdentityRole("User");
+                roleManager.Create(role);
+            }
         }
     }
 }
