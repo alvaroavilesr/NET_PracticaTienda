@@ -30,7 +30,6 @@ namespace PracticaTienda
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            // Crear el rol "Admin" si no existe
             if (!roleManager.RoleExists("Admin"))
             {
                 var role = new IdentityRole("Admin");
@@ -40,14 +39,12 @@ namespace PracticaTienda
                 string userPassword = "Admin@123";
                 var chkUser = userManager.Create(user, userPassword);
 
-                // Asignar el rol "Admin" al usuario
                 if (chkUser.Succeeded)
                 {
                     userManager.AddToRole(user.Id, "Admin");
                 }
             }
 
-            // Crear el rol "User" si no existe
             if (!roleManager.RoleExists("User"))
             {
                 var role = new IdentityRole("User");

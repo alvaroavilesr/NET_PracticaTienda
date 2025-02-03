@@ -1,9 +1,13 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
-
-    <p>Use this area to provide additional information.</p>
+﻿<main aria-labelledby="title">
+    <br />
+    <h3><strong>Aplicación ASP .NET del master MIW</strong></h3>
+    <br />
+    <p>Esta página web es el resultado de la realización de la práctica de .NET, que consiste en la creación de una página web para una tienda virtual.</p>
+    <p>Se ha usado acceso en base a roles para mostrar una parte u otra de la aplicación, permitiendo a cada tipo de usuario realizar distintas operaciones.</p>
+    <br />
+    <h5><strong>Tipos de usuario:</strong></h5>
+    <br />
+    <p><strong>Usuario sin autenticar: </strong>puede ver las páginas de inicio, logearse o registrarse, así como ver la lista de productos.</p>
+    <p><strong>Usuario con rol User: </strong>puede hacer lo anterior pero tambien puede hacer pedidos añadiendo productos al carrito.</p>
+    <p><strong>Usuario con rol Admin: </strong>se encarga de la gestión de productos.</p>
 </main>
