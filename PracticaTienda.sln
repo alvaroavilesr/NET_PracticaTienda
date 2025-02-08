@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticaTienda", "PracticaTienda\PracticaTienda.csproj", "{A6345A97-CC08-4E16-8FD5-F48DCB711622}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticaTiendaMVC", "PracticaTiendaMVC\PracticaTiendaMVC.csproj", "{A6345A97-CC08-4E16-8FD5-F48DCB711622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticaTiendaWebAPI", "PracticaTiendaWebAPI\PracticaTiendaWebAPI.csproj", "{9144C342-3056-414B-B752-232BFFDDC613}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A6345A97-CC08-4E16-8FD5-F48DCB711622}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6345A97-CC08-4E16-8FD5-F48DCB711622}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6345A97-CC08-4E16-8FD5-F48DCB711622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9144C342-3056-414B-B752-232BFFDDC613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9144C342-3056-414B-B752-232BFFDDC613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9144C342-3056-414B-B752-232BFFDDC613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9144C342-3056-414B-B752-232BFFDDC613}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
