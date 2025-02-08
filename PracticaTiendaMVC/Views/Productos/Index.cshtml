@@ -1,14 +1,24 @@
 ﻿@model IEnumerable<PracticaTienda.Models.ModeloProductos>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista de Productos";
 }
 
-<h2>Index</h2>
+<br />
+<h2>
+    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+    </svg>
+    <strong>Lista de productos</strong>
+</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+<br />
 <table class="table">
     <tr>
         <th>
@@ -18,34 +28,39 @@
             @Html.DisplayNameFor(model => model.CantidadDisponible)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ImagenAsociada)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Precio)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CantidadDisponible)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImagenAsociada)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Precio)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadDisponible)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    @: |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @: |
+                }
+                @if (User.IsInRole("User"))
+                {
+                    @Html.ActionLink("Añadir al carrito", "AddToCart", new { id = item.Id })
+                    @: |
+                }
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            </td>
+        </tr>
+    }
 </table>
+<br />
