@@ -6,6 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="dfa0e16fa7354ec1938b822743ace1f4" Name="Diagram1">
         <EntityTypeShape EntityType="PracticaTiendaDBModel.Productos" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PracticaTiendaDBModel.PedidoProductos" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="PracticaTiendaDBModel.Pedidos" Width="1.5" PointX="0.75" PointY="4" />
+        <AssociationConnector Association="PracticaTiendaDBModel.FK__PedidoPro__Pedid__4E88ABD4" />
+        <AssociationConnector Association="PracticaTiendaDBModel.FK__PedidoPro__Produ__4F7CD00D" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

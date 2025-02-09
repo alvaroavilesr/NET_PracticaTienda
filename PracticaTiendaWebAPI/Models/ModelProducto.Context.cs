@@ -26,5 +26,7 @@ namespace PracticaTiendaWebAPI.Models
         }
     
         public virtual DbSet<Productos> Productos { get; set; }
+        public virtual DbSet<PedidoProductos> PedidoProductos { get; set; }
+        public virtual DbSet<Pedidos> Pedidos { get; set; }
     }
 }

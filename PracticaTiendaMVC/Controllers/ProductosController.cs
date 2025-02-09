@@ -1,4 +1,5 @@
-﻿using PracticaTienda.Models;
+﻿using Newtonsoft.Json;
+using PracticaTienda.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,10 +15,14 @@ namespace PracticaTienda.Controllers
         // GET: Productos
         public ActionResult Index()
         {
-            IEnumerable<ModeloProductos> productosList;
+            IEnumerable<ModeloProductos> productosList = new List<ModeloProductos>();
 
             HttpResponseMessage response = GlobalVariables.WebAPIClient.GetAsync("Productos").Result;
-            productosList = response.Content.ReadAsAsync<IEnumerable<ModeloProductos>>().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = response.Content.ReadAsStringAsync().Result;
+                productosList = JsonConvert.DeserializeObject<IEnumerable<ModeloProductos>>(jsonString);
+            }
 
             return View(productosList);
         }

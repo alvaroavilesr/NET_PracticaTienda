@@ -164,6 +164,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -183,6 +184,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelProducto.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PedidoProductos.cs">
+      <DependentUpon>ModelProducto.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pedidos.cs">
+      <DependentUpon>ModelProducto.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Productos.cs">
       <DependentUpon>ModelProducto.tt</DependentUpon>

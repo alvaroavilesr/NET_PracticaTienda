@@ -12,19 +12,18 @@ namespace PracticaTiendaWebAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Productos
+    public partial class Pedidos
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Productos()
+        public Pedidos()
         {
             this.PedidoProductos = new HashSet<PedidoProductos>();
         }
     
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public int CantidadDisponible { get; set; }
-        public string ImagenAsociada { get; set; }
-        public decimal Precio { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
+        public decimal PrecioTotal { get; set; }
+        public string Usuario { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidoProductos> PedidoProductos { get; set; }

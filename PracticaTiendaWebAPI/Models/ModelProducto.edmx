@@ -4,22 +4,78 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PracticaTiendaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PracticaTiendaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PedidoProductos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PedidoId" Type="int" Nullable="false" />
+          <Property Name="ProductoId" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Subtotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pedidos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="PrecioTotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="Productos">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="nvarchar" MaxLength="100" />
-          <Property Name="CantidadDisponible" Type="int" />
-          <Property Name="ImagenAsociada" Type="nvarchar" MaxLength="100" />
-          <Property Name="Precio" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CantidadDisponible" Type="int" Nullable="false" />
+          <Property Name="ImagenAsociada" Type="nvarchar" MaxLength="500" />
+          <Property Name="Precio" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
+        <Association Name="FK__PedidoPro__Pedid__4E88ABD4">
+          <End Role="Pedidos" Type="Self.Pedidos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PedidoProductos" Type="Self.PedidoProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pedidos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PedidoProductos">
+              <PropertyRef Name="PedidoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PedidoPro__Produ__4F7CD00D">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PedidoProductos" Type="Self.PedidoProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PedidoProductos">
+              <PropertyRef Name="ProductoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PracticaTiendaDBModelStoreContainer">
+          <EntitySet Name="PedidoProductos" EntityType="Self.PedidoProductos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pedidos" EntityType="Self.Pedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__PedidoPro__Pedid__4E88ABD4" Association="Self.FK__PedidoPro__Pedid__4E88ABD4">
+            <End Role="Pedidos" EntitySet="Pedidos" />
+            <End Role="PedidoProductos" EntitySet="PedidoProductos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PedidoPro__Produ__4F7CD00D" Association="Self.FK__PedidoPro__Produ__4F7CD00D">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="PedidoProductos" EntitySet="PedidoProductos" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PracticaTiendaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -28,14 +84,75 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CantidadDisponible" Type="Int32" />
-          <Property Name="ImagenAsociada" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Precio" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CantidadDisponible" Type="Int32" Nullable="false" />
+          <Property Name="ImagenAsociada" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Precio" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="PedidoProductos" Relationship="PracticaTiendaDBModel.FK__PedidoPro__Produ__4F7CD00D" FromRole="Productos" ToRole="PedidoProductos" />
         </EntityType>
         <EntityContainer Name="PracticaTiendaDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Productos" EntityType="Self.Productos" />
+          <EntitySet Name="PedidoProductos" EntityType="PracticaTiendaDBModel.PedidoProductos" />
+          <EntitySet Name="Pedidos" EntityType="PracticaTiendaDBModel.Pedidos" />
+          <AssociationSet Name="FK__PedidoPro__Pedid__4E88ABD4" Association="PracticaTiendaDBModel.FK__PedidoPro__Pedid__4E88ABD4">
+            <End Role="Pedidos" EntitySet="Pedidos" />
+            <End Role="PedidoProductos" EntitySet="PedidoProductos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PedidoPro__Produ__4F7CD00D" Association="PracticaTiendaDBModel.FK__PedidoPro__Produ__4F7CD00D">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="PedidoProductos" EntitySet="PedidoProductos" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="PedidoProductos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PedidoId" Type="Int32" Nullable="false" />
+          <Property Name="ProductoId" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Subtotal" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Pedidos" Relationship="PracticaTiendaDBModel.FK__PedidoPro__Pedid__4E88ABD4" FromRole="PedidoProductos" ToRole="Pedidos" />
+          <NavigationProperty Name="Productos" Relationship="PracticaTiendaDBModel.FK__PedidoPro__Produ__4F7CD00D" FromRole="PedidoProductos" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Pedidos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="PrecioTotal" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PedidoProductos" Relationship="PracticaTiendaDBModel.FK__PedidoPro__Pedid__4E88ABD4" FromRole="Pedidos" ToRole="PedidoProductos" />
+        </EntityType>
+        <Association Name="FK__PedidoPro__Pedid__4E88ABD4">
+          <End Type="PracticaTiendaDBModel.Pedidos" Role="Pedidos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PracticaTiendaDBModel.PedidoProductos" Role="PedidoProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pedidos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PedidoProductos">
+              <PropertyRef Name="PedidoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PedidoPro__Produ__4F7CD00D">
+          <End Type="PracticaTiendaDBModel.Productos" Role="Productos" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PracticaTiendaDBModel.PedidoProductos" Role="PedidoProductos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PedidoProductos">
+              <PropertyRef Name="ProductoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -50,6 +167,27 @@
                 <ScalarProperty Name="CantidadDisponible" ColumnName="CantidadDisponible" />
                 <ScalarProperty Name="ImagenAsociada" ColumnName="ImagenAsociada" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PedidoProductos">
+            <EntityTypeMapping TypeName="PracticaTiendaDBModel.PedidoProductos">
+              <MappingFragment StoreEntitySet="PedidoProductos">
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ProductoId" ColumnName="ProductoId" />
+                <ScalarProperty Name="PedidoId" ColumnName="PedidoId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pedidos">
+            <EntityTypeMapping TypeName="PracticaTiendaDBModel.Pedidos">
+              <MappingFragment StoreEntitySet="Pedidos">
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
