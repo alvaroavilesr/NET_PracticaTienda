@@ -78,5 +78,26 @@ namespace PracticaTienda.Controllers
             }
             return View(producto);
         }
+
+        // GET: Productos/Delete/5
+        public ActionResult Delete(int id)
+        {
+            HttpResponseMessage response = GlobalVariables.WebAPIClient.GetAsync($"Productos/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var producto = response.Content.ReadAsAsync<ModeloProductos>().Result;
+                return View(producto);
+            }
+            return HttpNotFound();
+        }
+
+        // POST: Productos/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            HttpResponseMessage response = GlobalVariables.WebAPIClient.DeleteAsync($"Productos/{id}").Result;
+            return RedirectToAction("Index");
+        }
     }
 }
