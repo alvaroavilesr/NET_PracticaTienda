@@ -99,5 +99,17 @@ namespace PracticaTienda.Controllers
             HttpResponseMessage response = GlobalVariables.WebAPIClient.DeleteAsync($"Productos/{id}").Result;
             return RedirectToAction("Index");
         }
+
+        // GET: Productos/Details/5
+        public ActionResult Details(int id)
+        {
+            HttpResponseMessage response = GlobalVariables.WebAPIClient.GetAsync($"Productos/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var producto = response.Content.ReadAsAsync<ModeloProductos>().Result;
+                return View(producto);
+            }
+            return HttpNotFound();
+        }
     }
 }
