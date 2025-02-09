@@ -44,5 +44,39 @@ namespace PracticaTienda.Controllers
             HttpResponseMessage response = GlobalVariables.WebAPIClient.PostAsJsonAsync("Productos", producto).Result;
             return RedirectToAction("Index");
         }
+
+        // GET: Productos/Edit/5
+        public ActionResult Edit(int id)
+        {
+            HttpResponseMessage response = GlobalVariables.WebAPIClient.GetAsync($"Productos/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var producto = response.Content.ReadAsAsync<ModeloProductos>().Result;
+                var images = Directory.GetFiles(Server.MapPath("~/Images"))
+                                      .Select(Path.GetFileName)
+                                      .ToList();
+                ViewBag.Images = new SelectList(images);
+                return View(producto);
+            }
+            return HttpNotFound();
+        }
+
+        // POST: Productos/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ModeloProductos producto)
+        {
+            var images = Directory.GetFiles(Server.MapPath("~/Images"))
+                                  .Select(Path.GetFileName)
+                                  .ToList();
+            ViewBag.Images = new SelectList(images);
+            HttpResponseMessage response = GlobalVariables.WebAPIClient.PutAsJsonAsync($"Productos/{producto.Id}", producto).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Producto editado exitosamente.";
+                return RedirectToAction("Index");
+            }
+            return View(producto);
+        }
     }
 }
