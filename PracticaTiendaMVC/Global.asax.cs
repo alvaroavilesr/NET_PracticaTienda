@@ -33,6 +33,11 @@ namespace PracticaTienda
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             CrearRolesYUsuarios();
+            ModelBinders.Binders.Add(
+            typeof(List<ModeloProductos>),
+            new CarritoModelBinder()
+);
+
         }
 
         private void CrearRolesYUsuarios()

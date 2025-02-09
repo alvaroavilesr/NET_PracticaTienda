@@ -116,5 +116,63 @@ namespace PracticaTienda.Controllers
             }
             return HttpNotFound();
         }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public ActionResult AddToCart(int id, List<ModeloProductos> carrito)
+        {
+            HttpResponseMessage response = GlobalVariables.WebAPIClient.GetAsync($"Productos/{id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var producto = response.Content.ReadAsAsync<ModeloProductos>().Result;
+                carrito.Add(producto);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public ActionResult EliminarDelCarrito(int id, List<ModeloProductos> carrito) { 
+        
+            var producto = carrito.FirstOrDefault(p => p.Id == id);
+            if (producto != null)
+            {
+                carrito.Remove(producto);
+            }
+
+            return RedirectToAction("Carrito");
+        }
+
+        // GET: Productos/Carrito
+        public ActionResult Carrito(List<ModeloProductos> carrito)
+        {
+            return View(carrito);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public ActionResult HacerPedido(List<ModeloProductos> carrito)
+        {
+
+            var pedido = new ModeloPedidos
+            {
+                Fecha = DateTime.Now,
+                PrecioTotal = carrito.Sum(p => p.Precio ?? 0),
+                Usuario = User.Identity.Name,
+                PedidoProductos = carrito.Select(p => new ModeloPedidoProducto
+                {
+                    ProductoId = p.Id,
+                    Cantidad = 1,
+                    Subtotal = p.Precio ?? 0
+                }).ToList()
+            };
+
+            HttpResponseMessage response = GlobalVariables.WebAPIClient.PostAsJsonAsync("Pedidos", pedido).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                carrito.Clear();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
