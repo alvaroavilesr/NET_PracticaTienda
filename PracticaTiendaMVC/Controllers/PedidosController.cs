@@ -13,6 +13,7 @@ namespace PracticaTienda.Controllers
     public class PedidosController : Controller
     {
         // GET: Pedidos
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index()
         {
             IEnumerable<ModeloPedidos> pedidosList = new List<ModeloPedidos>();
@@ -27,6 +28,7 @@ namespace PracticaTienda.Controllers
             return View(pedidosList);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Details(int id)
         {
             ModeloPedidos pedido = null;

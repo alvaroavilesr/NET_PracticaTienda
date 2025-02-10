@@ -28,6 +28,7 @@ namespace PracticaTienda.Controllers
         }
 
         // GET: Productos/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var images = Directory.GetFiles(Server.MapPath("~/Images"))
@@ -38,6 +39,7 @@ namespace PracticaTienda.Controllers
         }
 
         // POST: Productos/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ModeloProductos producto)
@@ -51,6 +53,7 @@ namespace PracticaTienda.Controllers
         }
 
         // GET: Productos/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             HttpResponseMessage response = GlobalVariables.WebAPIClient.GetAsync($"Productos/{id}").Result;
@@ -67,6 +70,7 @@ namespace PracticaTienda.Controllers
         }
 
         // POST: Productos/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ModeloProductos producto)
@@ -85,6 +89,7 @@ namespace PracticaTienda.Controllers
         }
 
         // GET: Productos/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             HttpResponseMessage response = GlobalVariables.WebAPIClient.GetAsync($"Productos/{id}").Result;
@@ -97,6 +102,7 @@ namespace PracticaTienda.Controllers
         }
 
         // POST: Productos/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -145,6 +151,7 @@ namespace PracticaTienda.Controllers
         }
 
         // GET: Productos/Carrito
+        [Authorize(Roles = "User")]
         public ActionResult Carrito(List<ModeloProductos> carrito)
         {
             return View(carrito);
