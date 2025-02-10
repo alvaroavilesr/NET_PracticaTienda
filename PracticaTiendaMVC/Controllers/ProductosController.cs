@@ -126,6 +126,7 @@ namespace PracticaTienda.Controllers
             {
                 var producto = response.Content.ReadAsAsync<ModeloProductos>().Result;
                 carrito.Add(producto);
+                TempData["SuccessMessage"] = "Producto añadido al carrito!";
             }
             return RedirectToAction("Index");
         }
@@ -166,6 +167,30 @@ namespace PracticaTienda.Controllers
                     Subtotal = p.Precio ?? 0
                 }).ToList()
             };
+
+            foreach (var producto in carrito)
+            {
+                HttpResponseMessage responseProducto = GlobalVariables.WebAPIClient.GetAsync($"Productos/{producto.Id}").Result;
+                if (responseProducto.IsSuccessStatusCode)
+                {
+                    var productoActualizado = responseProducto.Content.ReadAsAsync<ModeloProductos>().Result;
+                    if (productoActualizado.CantidadDisponible.HasValue && productoActualizado.CantidadDisponible > 0)
+                    {
+                        productoActualizado.CantidadDisponible -= 1;
+                        HttpResponseMessage responseUpdate = GlobalVariables.WebAPIClient.PutAsJsonAsync($"Productos/{productoActualizado.Id}", productoActualizado).Result;
+                        if (!responseUpdate.IsSuccessStatusCode)
+                        {
+                            TempData["ErrorMessage"] = "Error al actualizar la cantidad disponible del producto.";
+                            return RedirectToAction("Carrito", carrito);
+                        }
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = $"No hay suficiente cantidad disponible para el producto {producto.Nombre}.";
+                        return RedirectToAction("Carrito", carrito);
+                    }
+                }
+            }
 
             HttpResponseMessage response = GlobalVariables.WebAPIClient.PostAsJsonAsync("Pedidos", pedido).Result;
             if (response.IsSuccessStatusCode)

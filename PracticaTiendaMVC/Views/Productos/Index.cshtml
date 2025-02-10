@@ -39,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CantidadDisponible) 
+                @Html.DisplayFor(modelItem => item.CantidadDisponible)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Precio)
@@ -65,3 +65,11 @@
     }
 </table>
 <br />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
